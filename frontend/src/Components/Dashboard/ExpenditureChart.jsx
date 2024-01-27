@@ -57,14 +57,10 @@ const ExpenditureChart = () => {
         const fetchData = async () => {
           let { data } = await axios.get("/transaction/chart");
 
-          let transactions = data.transaction;
-
           // sort transactions by date
           // transactions.sort((a, b) => {
           //   return new Date(a.createdAt) - new Date(b.createdAt);
           // });
-
-          console.log(transactions)
 
           let dataForCharts = Object.keys(data.transaction).reverse().map((key, index) => {
             return {
@@ -73,8 +69,6 @@ const ExpenditureChart = () => {
               MoneyOnDate: user.currentBalance + data.transaction[key],
             };
           })
-
-          console.log(dataForCharts)
           
           setChartData({
             labels: dataForCharts.map((data) => data.date), 

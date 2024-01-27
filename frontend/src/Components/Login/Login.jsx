@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../Utilities/Input";
 import { UserContext } from "../../context/UserContext";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 
@@ -15,8 +16,6 @@ function Login() {
     password: "",
   });
 
-  const [toastMessage, setToastMessage] = useState("");
-
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -28,16 +27,16 @@ function Login() {
       const { data } = await axios.post("/login", input);
 
       if (data.success == true) {
-        setToastMessage(`${data.user.name} logged in successfully`);
+        toast.success(`${data.user.name} logged in successfully`);
         if (user === null) {
           setUser(data.user);
           navigate("/dashboard");
         }
       } else {
-        setToastMessage(data.message);
+        toast.error(data.message);
       }
     } catch (err) {
-      setToastMessage(err);
+      toast.error(err);
     }
   };
 
